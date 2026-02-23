@@ -27,8 +27,9 @@ finance_assistance_agent = LlmAgent(
 
 # 3. RUNNER INITIALIZATION (Uses the agent from above)
 # This line will throw a NameError if placed before Section 2
+# 3. RUNNER INITIALIZATION (Uses the agent from above)
 runner = Runner(
-    agent=finance_assistance_agent,
+    agent=finance_assistance_agent, # Pass the agent object directly
     session_service=InMemorySessionService()
 )
 
