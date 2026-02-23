@@ -1,5 +1,5 @@
-from google.adk.runners import Runner
-from google.adk.session_services import InMemorySessionService
+from google.adk.runners import Runner, InMemorySessionService
+
 
 # 1. Create the memory service
 session_service = InMemorySessionService()
