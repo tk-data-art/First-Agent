@@ -25,7 +25,7 @@ st.write("Hello! I am your friendly finance assistant. How can I help you today?
 # Create the input box and assign the text to the variable "prompt"
 if prompt := st.chat_input("How can I help you with your finances?"):
     
-        with st.chat_message("assistant"):
+    with st.chat_message("assistant"):
         # 1. Create a placeholder for the "typing" effect
         placeholder = st.empty()
         full_text = ""
