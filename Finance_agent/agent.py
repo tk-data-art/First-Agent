@@ -40,12 +40,12 @@ if prompt := st.chat_input("How can I help you with your finances?"):
         st.write(prompt)
 
     with st.chat_message("assistant"):
-        # The FIX: Using 'input' instead of 'new_message'
+        # The FIX: Using 'message' as the keyword argument
         async_gen = runner.run_live(
             user_id="user_1", 
             session_id="finance_session",
-            input=prompt 
+            message=prompt # Changed from 'input' to 'message'
         )
         
-        # Use our helper to stream it to the UI
+        # Stream the output to your Streamlit UI
         st.write_stream(to_sync_generator(async_gen))
