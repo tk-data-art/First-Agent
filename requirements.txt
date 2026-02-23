@@ -4,3 +4,4 @@ pandas
 openai
 python-dotenv
 google-adk
+google.adk
