@@ -9,7 +9,7 @@ def to_sync_generator(async_gen):
     # ... (keep your existing to_sync_generator code) ...
 
 # 2. DEFINE AGENT FIRST
-finance_assistance_agent = LlmAgent(
+    finance_assistance_agent = LlmAgent(
     name="finance_assistance_agent",
     model="gemini-2.5-flash", 
     tools=[google_search],
