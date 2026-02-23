@@ -4,7 +4,7 @@ from google.adk.agents import LlmAgent
 from google.adk.runners import Runner, InMemorySessionService
 from google.adk.tools import google_search
 
-# 1. HELPER FUNCTION (Must be defined before the UI uses it)
+# --- SECTION 1: HELPER ---
 def to_sync_generator(async_gen):
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
@@ -17,34 +17,35 @@ def to_sync_generator(async_gen):
     finally:
         loop.close()
 
-# 2. AGENT DEFINITION (Define this BEFORE the Runner)
+# --- SECTION 2: AGENT ---
 finance_assistance_agent = LlmAgent(
     name="finance_assistance_agent",
     model="gemini-2.0-flash", 
     tools=[google_search],
-    instruction="You are a friendly finance assistant."
+    instruction="Be a friendly finance assistant."
 )
 
-# 3. RUNNER INITIALIZATION
-# This satisfies the requirement for both 'app_name' and 'agent'
+# --- SECTION 3: RUNNER ---
 runner = Runner(
     agent=finance_assistance_agent,
     app_name="finance_assistant_app", 
     session_service=InMemorySessionService()
 )
-# 4. STREAMLIT UI LOGIC
+
+# --- SECTION 4: UI LOGIC (Add the fix here) ---
 st.title("💰 Finance Assistant")
 
-if prompt := st.chat_input("How can I help you today?"):
+if prompt := st.chat_input("How can I help you with your finances?"):
     with st.chat_message("user"):
         st.write(prompt)
 
     with st.chat_message("assistant"):
-        # The Runner manages the conversation state
+        # The FIX: Using 'input' instead of 'new_message'
         async_gen = runner.run_live(
             user_id="user_1", 
             session_id="finance_session",
-            new_message=prompt
+            input=prompt 
         )
-        # Pass the stream to our helper
+        
+        # Use our helper to stream it to the UI
         st.write_stream(to_sync_generator(async_gen))
