@@ -24,5 +24,19 @@ runner = Runner(
 
 # 4. UI LOGIC
 st.title("💰 Finance Agent")
-if prompt := st.chat_input("Ask me anything:"):
-    # ... (your chat logic using runner.run_live) ...
+# Line 27: The "if" statement
+if prompt := st.chat_input("How can I help you with your finances?"):
+    # Everything below this must be indented by 4 spaces or 1 Tab
+    with st.chat_message("user"):
+        st.write(prompt) # Line 28 - This must be indented!
+
+    with st.chat_message("assistant"):
+        # This code is also inside the "if", so it stays indented
+        async_gen = runner.run_live(
+            user_id="user_1", 
+            session_id="finance_session",
+            new_message=prompt
+        )
+        
+        # Use the sync generator helper we built
+        st.write_stream(to_sync_generator(async_gen))
