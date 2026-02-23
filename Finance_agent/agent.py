@@ -22,16 +22,14 @@ import streamlit as st
 st.title("Finance Assistance Agent")
 st.write("Hello! I am your friendly finance assistant. How can I help you today?")
 
-# Create a text input for the user
-user_input = st.chat_input("Type your finance question here...")
-
-if user_input:
-    # Display the user message
+# Create the input box and assign the text to the variable "prompt"
+if prompt := st.chat_input("How can I help you with your finances?"):
+    
+    # Now you can use "prompt" because it was defined in the line above
     with st.chat_message("user"):
-        st.write(user_input)
+        st.write(prompt)
 
-    # Get the response from your ADK agent
     with st.chat_message("assistant"):
-        # This assumes your ADK agent has a .run() or .chat() method
+        # This will now work because prompt exists!
         response = finance_assistance_agent.run_live(prompt)
-        st.write(response)
+        st.write(response.text)
