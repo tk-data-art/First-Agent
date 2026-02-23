@@ -30,6 +30,9 @@ if prompt := st.chat_input("How can I help you with your finances?"):
         st.write(prompt)
 
     with st.chat_message("assistant"):
-        # This will now work because prompt exists!
-        response = finance_assistance_agent.run_live(prompt)
-        st.write(response.text)
+    # 1. Start the live run
+        response_stream = finance_assistance_agent.run_live(prompt)
+    
+    # 2. Use st.write_stream to automatically handle the async_generator
+    # This will create that cool "typing" effect on your website!
+        full_response = st.write_stream(response_stream)
