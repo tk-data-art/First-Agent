@@ -25,14 +25,13 @@ finance_assistance_agent = LlmAgent(
     instruction="You are a friendly finance assistant."
 )
 
-# 3. RUNNER INITIALIZATION (Uses the agent from above)
-# This line will throw a NameError if placed before Section 2
-# 3. RUNNER INITIALIZATION (Uses the agent from above)
+# 3. RUNNER INITIALIZATION
+# This satisfies the requirement for both 'app_name' and 'agent'
 runner = Runner(
-    agent=finance_assistance_agent, # Pass the agent object directly
+    agent=finance_assistance_agent,
+    app_name="finance_assistant_app", 
     session_service=InMemorySessionService()
 )
-
 # 4. STREAMLIT UI LOGIC
 st.title("💰 Finance Assistant")
 
