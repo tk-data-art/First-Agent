@@ -1,3 +1,17 @@
+from google.adk.runners import Runner
+from google.adk.session_services import InMemorySessionService
+
+# 1. Create the memory service
+session_service = InMemorySessionService()
+
+# 2. Pass it to the Runner as a keyword-only argument
+runner = Runner(
+    agent=finance_assistance_agent,
+    session_service=session_service
+)
+
+
+
 from google.adk.agents import LlmAgent
 from google.adk.tools import google_search # Corrected path
 
@@ -50,7 +64,7 @@ st.write("Hello! I am your friendly finance assistant. How can I help you today?
 #         # Pass it through the helper to make it compatible with st.write_stream
 #         st.write_stream(to_sync_generator(async_gen))
 
-from google.adk.runners import Runner
+
 
 # ... (your agent and helper function code) ...
 
