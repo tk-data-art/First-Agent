@@ -33,5 +33,5 @@ if user_input:
     # Get the response from your ADK agent
     with st.chat_message("assistant"):
         # This assumes your ADK agent has a .run() or .chat() method
-        response = finance_assistance_agent.run(user_input) 
+        response = finance_assistance_agent.chat(prompt)
         st.write(response)
