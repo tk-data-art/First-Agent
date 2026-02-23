@@ -32,9 +32,6 @@ if user_input:
 
     # Get the response from your ADK agent
     with st.chat_message("assistant"):
-    # The ADK uses run_live for real-time model interaction
-    response = finance_assistance_agent.run_live(prompt)
-    
-    # Since run_live might return a stream or an object, 
-    # we use .text to show the actual answer
-    st.write(response.text)
+        # This assumes your ADK agent has a .run() or .chat() method
+        response = finance_assistance_agent.run_live(prompt)
+        st.write(response)
