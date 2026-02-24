@@ -11,6 +11,7 @@ def to_sync_generator(async_gen):
     try:
         while True:
             try:
+                # Manually stepping through the async generator
                 yield loop.run_until_complete(anext(async_gen))
             except StopAsyncIteration:
                 break
@@ -22,25 +23,33 @@ finance_assistance_agent = LlmAgent(
     name="finance_assistance_agent",
     model="gemini-2.0-flash", 
     tools=[google_search],
-    instruction="Be a friendly finance assistant for students in Dubai."
+    instruction="Be a friendly finance assistant for international students in Dubai."
 )
 
 # --- SECTION 3: RUNNER ---
-# app_name is REQUIRED here
 runner = Runner(
     agent=finance_assistance_agent,
     app_name="finance_assistant_app", 
     session_service=InMemorySessionService()
 )
 
-with st.chat_message("assistant"):
-        # We pass a dict that looks like what the 'Message' class would produce
+# --- SECTION 4: UI LOGIC ---
+st.title("💰 Finance Assistant")
+
+if prompt := st.chat_input("How can I help you today?"):
+    with st.chat_message("user"):
+        st.write(prompt)
+
+    with st.chat_message("assistant"):
+        # The FIX: We pass the message as a dictionary to bypass AttributeErrors
         user_msg = {"role": "user", "content": prompt}
         
+        # Use run_async to handle the turn-based conversation
         async_gen = runner.run_async(
             user_id="user_123", 
             session_id="finance_session_001",
             new_message=user_msg 
         )
         
+        # Stream the typing effect
         st.write_stream(to_sync_generator(async_gen))
