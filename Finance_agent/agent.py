@@ -1,3 +1,4 @@
+from google.adk.types import Message
 import streamlit as st
 import asyncio
 from google.adk.agents import LlmAgent
@@ -41,12 +42,16 @@ if prompt := st.chat_input("Ask about your finance goals:"):
         st.write(prompt)
 
     with st.chat_message("assistant"):
-        # The FIX: 'run_async' with 'new_message' is the stable standard
+        # 1. Wrap the string in a Message object
+        # This fixes the AttributeError: 'str' object has no attribute 'role'
+        user_msg = Message(role="user", content=prompt)
+        
+        # 2. Start the async run with the properly formatted message
         async_gen = runner.run_async(
             user_id="user_123", 
             session_id="finance_session_001",
-            new_message=prompt 
+            new_message=user_msg 
         )
         
-        # This will create the typing effect in Streamlit
+        # 3. Stream it to the UI
         st.write_stream(to_sync_generator(async_gen))
